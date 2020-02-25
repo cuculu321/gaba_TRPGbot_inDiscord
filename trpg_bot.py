@@ -1,5 +1,6 @@
 # インストールした discord.py を読み込む
 import discord
+import random
 
 # 自分のBotのアクセストークンに置き換えてください
 token_file = open('token.txt')
@@ -13,6 +14,12 @@ client = discord.Client()
 def parse_space(message_content):
     return message_content.split()
 
+def parse_d(diceroll_cmd):
+    return diceroll_cmd.split("d")
+
+def dice_roll(num_dice, dice_faces):
+    return random.randint(num_dice, num_dice * dice_faces)
+
 def bot_switch(message):
     #botのモードをコマンドによってスイッチ
     print(message.content)
@@ -21,7 +28,8 @@ def bot_switch(message):
     
     elif message.content.startswith('/dice'):
     #サイコロを振るコマンド
-        message_splitd_space = print(parse_space(message.content))
+        message_splitd_space = parse_space(message.content)
+        num_dice, dice_faces = parse_d(message_splitd_space[1])
         return ("roll")
 
     else:
