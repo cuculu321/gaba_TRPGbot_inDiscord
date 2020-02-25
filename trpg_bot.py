@@ -2,7 +2,8 @@
 import discord
 
 # 自分のBotのアクセストークンに置き換えてください
-TOKEN = ''
+token_file = open('token.txt')
+TOKEN = token_file.read()
 
 # 接続に必要なオブジェクトを生成
 client = discord.Client()
