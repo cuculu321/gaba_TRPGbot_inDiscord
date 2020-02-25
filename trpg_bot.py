@@ -30,7 +30,8 @@ def bot_switch(message):
     #サイコロを振るコマンド
         message_splitd_space = parse_space(message.content)
         num_dice, dice_faces = parse_d(message_splitd_space[1])
-        return ("roll")
+        rolled = dice_roll(int(num_dice), int(dice_faces))
+        return (message_splitd_space[1] + " => **" + str(rolled) +"**")
 
     else:
         return None
