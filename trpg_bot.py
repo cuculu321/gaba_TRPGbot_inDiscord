@@ -123,6 +123,12 @@ def bot_switch(message):
 
         return (player_name + " の " + action + "(" + str(act_skill_point) + ") → **"
                     + str(dice) +" "+ act_result + "**")
+    
+    elif message.content.startswith('/tmp_mad'):
+        return ("一時的狂気 : " + temporary_madness[dice_roll(1, 20)])
+
+    elif message.content.startswith('/ind_mad'):
+        return ("不定な狂気 : " + indefinite_madness[dice_roll(1, 10)])
 
     else:
         return None
