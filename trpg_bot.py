@@ -37,6 +37,29 @@ SPREADSHEET_KEY = '1ThG04nz4l-ISa504UNcF97gKlkMx75YtggMGSJR2Eic'
 
 workbook = gc.open_by_key(SPREADSHEET_KEY)
 
+#*** 一時的狂気リスト
+temporary_madness = {}
+temporary_madness[1] = '鸚鵡返し（誰かの動作・発言を真似することしか出来なくなる）'
+temporary_madness[2] = '健忘症（1d6時間以内のことを忘れる）'
+temporary_madness[3] = '多弁症（何があってもひたすら喋り続ける）'
+temporary_madness[4] = '偏食症（奇妙なものを食べたくなる）'
+temporary_madness[5] = '頭痛・嘔吐などの体調不良（技能値に-5）'
+temporary_madness[6] = '暴力癖（誰彼構わず暴力を振るう）'
+temporary_madness[7] = '幻聴或いは一時的難聴（聞き耳半減。この症状の探索者に精神分析や説得などを試みる場合は技能値に-10）'
+temporary_madness[8] ='逃亡癖（その場から逃げようとする）'
+temporary_madness[9] = '吃音や失声などの発語障害（交渉技能の技能値が半減する）'
+temporary_madness[10] = '不信（単独行動をとりたがる。交渉技能不可。）'
+temporary_madness[11] = '恐怖による行動不能'
+temporary_madness[12] = '自傷癖（自傷行動を行う。ラウンドごと1d2のダメージ判定を行う）'
+temporary_madness[13] = '感情の噴出（泣き続ける、笑い続けるなど。自発行動が出来なくなる）'
+temporary_madness[14] = '気絶（精神分析・またはCON*5のロールに成功で目覚める）'
+temporary_madness[15] = '幻覚あるいは妄想（目を使う技能は技能値に-30）'
+temporary_madness[16] = '偏執症（特定のものや行動に強く執着する）'
+temporary_madness[17] = 'フェティシズム（特定のものに性的魅惑を感じる）'
+temporary_madness[18] = '退行（乳幼児のような行動をとってしまう）'
+temporary_madness[19] = '自己愛（自分を守るために何でもしようとする）'
+temporary_madness[20] = '過信（自分を全能と信じて、どんなことでもしてしまう）'
+
 
 def parse_space(message_content):
     return message_content.split()
