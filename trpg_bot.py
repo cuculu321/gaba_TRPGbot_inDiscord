@@ -37,8 +37,9 @@ SPREADSHEET_KEY = '1ThG04nz4l-ISa504UNcF97gKlkMx75YtggMGSJR2Eic'
 
 workbook = gc.open_by_key(SPREADSHEET_KEY)
 worksheet_list = workbook.worksheets()
-
-print(worksheet_list)
+worksheet_title_list = []
+for i in range(len(worksheet_list)):
+    worksheet_title_list.append(worksheet_list[i].title)
 
 def parse_space(message_content):
     return message_content.split()
@@ -65,7 +66,10 @@ def bot_switch(message):
 
     elif message.content.startswith('/act'):
         cmd, player_name,  action = parse_space(message.content)
-        
+        worksheet = workbook.worksheet(player_name)
+        cell = worksheet.find(action)
+
+        return cell
 
     else:
         return None
