@@ -36,10 +36,7 @@ gc = gspread.authorize(credentials)
 SPREADSHEET_KEY = '1ThG04nz4l-ISa504UNcF97gKlkMx75YtggMGSJR2Eic'
 
 workbook = gc.open_by_key(SPREADSHEET_KEY)
-worksheet_list = workbook.worksheets()
-worksheet_title_list = []
-for i in range(len(worksheet_list)):
-    worksheet_title_list.append(worksheet_list[i].title)
+
 
 def parse_space(message_content):
     return message_content.split()
