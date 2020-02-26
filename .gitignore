@@ -1,3 +1,4 @@
 Pipfile.lock
 token.txt
 .DS_Store
+*.json
