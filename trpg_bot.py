@@ -67,9 +67,10 @@ def bot_switch(message):
     elif message.content.startswith('/act'):
         cmd, player_name,  action = parse_space(message.content)
         worksheet = workbook.worksheet(player_name)
-        cell = worksheet.find(action)
+        act_cell = worksheet.find(action)
+        act_skill_point = worksheet.cell(act_cell.row, act_cell.col + 4).value
 
-        return cell
+        return act_skill_point
 
     else:
         return None
