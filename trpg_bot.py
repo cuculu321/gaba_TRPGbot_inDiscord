@@ -103,6 +103,14 @@ def bot_switch(message):
     if message.content.startswith('/neko'):
         return('にゃーん')
     
+    elif message.content.startswith('/help'):
+        return (
+            "** /dice [x]d[y] ** : x個のy面ダイスを振った結果を返します。\n" + 
+            "** /act プレイヤー名 技能名 ** : 技能が成功したかどうかを返します。\n" + 
+            "** /tmp_mad ** : 一時的狂気表からランダムに1つ返します。\n" +
+            "** /ind_mad ** : 不逞の狂気表からランダムに1つを返します。\n"
+        )
+
     elif message.content.startswith('/dice'):
     #サイコロを振るコマンド
         message_splitd_space = parse_space(message.content)
@@ -125,10 +133,10 @@ def bot_switch(message):
                     + str(dice) +" "+ act_result + "**")
     
     elif message.content.startswith('/tmp_mad'):
-        return ("一時的狂気 : " + temporary_madness[dice_roll(1, 20)])
+        return ("一時的狂気 : **" + temporary_madness[dice_roll(1, 20)] + "**")
 
     elif message.content.startswith('/ind_mad'):
-        return ("不定な狂気 : " + indefinite_madness[dice_roll(1, 10)])
+        return ("不定な狂気 : **" + indefinite_madness[dice_roll(1, 10)] + "**")
 
     else:
         return None
