@@ -15,7 +15,7 @@ token_file = open('token.txt')
 tokens = token_file.read().split()
 TOKEN = tokens[0]
 
-channel_id = 681676739310780436
+channel_id = [681676739310780436, 497063980385435681, 683269397095514166]
 
 # 接続に必要なオブジェクトを生成
 client = discord.Client()
@@ -139,7 +139,7 @@ def bot_switch(message):
         return ("不定な狂気 : **" + indefinite_madness[dice_roll(1, 10)] + "**")
 
     else:
-        return None
+        return
 
 
 # 起動時に動作する処理
@@ -155,10 +155,16 @@ async def on_message(message):
     if message.author.bot:
         return
 
-    if message.channel.id == channel_id:
+    if message.channel.id in channel_id:
         return_message = bot_switch(message)
 
-        await message.channel.send(return_message)
+        if return_message is None:
+            return
+        else:
+            await message.channel.send(return_message)
+
+    else:
+        return
 
 # Botの起動とDiscordサーバーへの接続
 client.run(TOKEN)
