@@ -88,7 +88,7 @@ class open_google_spreadsheet:
         print(time.time() - self.set_token_time)
         if (time.time() - self.set_token_time)> 3500:
             print("refresh token")
-            set_token()
+            self.set_token()
 
         return self.workbook
 
@@ -107,7 +107,7 @@ def dice_roll(num_dice, dice_faces):
     return random.randint(num_dice, num_dice * dice_faces)
 
 def action_check(skill_point, dice):
-    if dice < skill_point:
+    if dice <= skill_point:
         if dice < 5:
             return "クリティカル"
         elif dice < 10:
@@ -122,10 +122,18 @@ def action_check(skill_point, dice):
             return "失敗"
 
 def read_skill_point(workbook, player_name, action):
+    action_cmd = action
+    multipl_point = 1
+    
+    if "*" in action:
+        mult_symbol_index = action.find("*")
+        action_cmd = action[0 : mult_symbol_index]
+        multipl_point = action[mult_symbol_index + 1: len(action)]
+        
     worksheet = workbook.worksheet(player_name)
-    act_cell = worksheet.find(action)
+    act_cell = worksheet.find(action_cmd)
 
-    act_skill_point = int(worksheet.cell(act_cell.row, act_cell.col + 4).value)
+    act_skill_point = int(worksheet.cell(act_cell.row, act_cell.col + 4).value) * int(multipl_point)
 
     return act_skill_point
 
