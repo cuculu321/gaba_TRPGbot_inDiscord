@@ -20,12 +20,6 @@ channel_id = [681676739310780436, 497063980385435681, 683269397095514166]
 # 接続に必要なオブジェクトを生成
 client = discord.Client()
 
-gc = gs_login()
-#共有設定したスプレッドシートキーを変数[SPREADSHEET_KEY]に格納する。
-SPREADSHEET_KEY = '1ThG04nz4l-ISa504UNcF97gKlkMx75YtggMGSJR2Eic'
-
-workbook = gc.open_by_key(SPREADSHEET_KEY)
-
 #*** 一時的狂気リスト
 temporary_madness = {}
 temporary_madness[1] = '鸚鵡返し（誰かの動作・発言を真似することしか出来なくなる）'
@@ -169,6 +163,12 @@ async def on_message(message):
 
     else:
         return
+
+gc = gs_login()
+#共有設定したスプレッドシートキーを変数[SPREADSHEET_KEY]に格納する。
+SPREADSHEET_KEY = '1ThG04nz4l-ISa504UNcF97gKlkMx75YtggMGSJR2Eic'
+
+workbook = gc.open_by_key(SPREADSHEET_KEY)
 
 # Botの起動とDiscordサーバーへの接続
 client.run(TOKEN)
