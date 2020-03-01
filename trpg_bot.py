@@ -126,6 +126,15 @@ def action_check(skill_point, dice):
         else:
             return "失敗"
 
+def read_skill_point(workbook, player_name, action):
+    worksheet = workbook.worksheet(player_name)
+    act_cell = worksheet.find(action)
+
+    act_skill_point = int(worksheet.cell(act_cell.row, act_cell.col + 4).value)
+
+    return act_skill_point
+
+
 def bot_switch(message):
     #botのモードをコマンドによってスイッチ
     print(message.content)
@@ -148,21 +157,17 @@ def bot_switch(message):
         return (message_splitd_space[1] + " → **" + str(rolled) +"**")
 
     elif message.content.startswith('/act'):
-    #プレイヤーが行動を行うときのコマンド
-        token_start_time = time.time()
-        
+    #プレイヤーが行動を行うときのコマンド        
         acccess_spreadsheet = open_google_spreadsheet()
         acccess_spreadsheet.gs_login()
         acccess_spreadsheet.open_workbook()
-        
+
         workbook = acccess_spreadsheet.give_workbook()
 
         cmd, player_name, action = parse_space(message.content)
 
-        worksheet = workbook.worksheet(player_name)
-        act_cell = worksheet.find(action)
+        act_skill_point = read_skill_point(workbook, player_name, action)
 
-        act_skill_point = int(worksheet.cell(act_cell.row, act_cell.col + 4).value)
         dice = dice_roll(1, 100)
         act_result = action_check(act_skill_point, dice)
 
