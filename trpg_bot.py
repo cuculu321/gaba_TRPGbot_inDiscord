@@ -58,31 +58,11 @@ indefinite_madness[8] = '不信（単独行動をとりたがる。交渉技能�
 indefinite_madness[9] = '幻覚（目を使う技能は技能値に-30）'
 indefinite_madness[10] = '殺人癖（誰彼構わず殺そうとする） '
 
-def gs_login():
-    # *** Google SpreadSheetへのアクセス
-    #2つのAPIを記述しないとリフレッシュトークンを3600秒毎に発行し続けなければならない
-    scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
-
-    #認証情報設定
-    #ダウンロードしたjsonファイル名をクレデンシャル変数に設定（秘密鍵、Pythonファイルから読み込みしやすい位置に置く）
-    credentials = ServiceAccountCredentials.from_json_keyfile_name('gaba-cocbot-readspreadsheet-22b6a04f8d0a.json', scope)
-
-    #OAuth2の資格情報を使用してGoogle APIにログインします。
-    gc = gspread.authorize(credentials)
-
-    return gc
-
-'''
-gc = gs_login()
-#共有設定したスプレッドシートキーを変数[SPREADSHEET_KEY]に格納する。
-SPREADSHEET_KEY = '1ThG04nz4l-ISa504UNcF97gKlkMx75YtggMGSJR2Eic'
-
-workbook = gc.open_by_key(SPREADSHEET_KEY)
-'''
 class open_google_spreadsheet:
     gc = []
     workbook = []
     SPREADSHEET_KEY = '1ThG04nz4l-ISa504UNcF97gKlkMx75YtggMGSJR2Eic'
+    set_token_time = 0
     
     def gs_login(self):
         # *** Google SpreadSheetへのアクセス
@@ -99,8 +79,23 @@ class open_google_spreadsheet:
     def open_workbook(self):
         self.workbook = self.gc.open_by_key(self.SPREADSHEET_KEY)
 
+    def set_token(self):
+        self.gs_login()
+        self.open_workbook()
+        self.set_token_time = time.time()
+
     def give_workbook(self):
+        print(time.time() - self.set_token_time)
+        if (time.time() - self.set_token_time)> 3500:
+            print("refresh token")
+            set_token()
+
         return self.workbook
+
+#*** スプレッドシートを使用するためのクラスと、トークンのセット
+acccess_spreadsheet = open_google_spreadsheet()
+acccess_spreadsheet.set_token()   
+
 
 def parse_space(message_content):
     return message_content.split()
@@ -134,7 +129,6 @@ def read_skill_point(workbook, player_name, action):
 
     return act_skill_point
 
-
 def bot_switch(message):
     #botのモードをコマンドによってスイッチ
     print(message.content)
@@ -158,10 +152,6 @@ def bot_switch(message):
 
     elif message.content.startswith('/act'):
     #プレイヤーが行動を行うときのコマンド        
-        acccess_spreadsheet = open_google_spreadsheet()
-        acccess_spreadsheet.gs_login()
-        acccess_spreadsheet.open_workbook()
-
         workbook = acccess_spreadsheet.give_workbook()
 
         cmd, player_name, action = parse_space(message.content)
