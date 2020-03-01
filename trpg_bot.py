@@ -9,6 +9,8 @@ import json
 #ServiceAccountCredentials：Googleの各サービスへアクセスできるservice変数を生成します。
 from oauth2client.service_account import ServiceAccountCredentials 
 
+import time
+
 # *** Discordのボットの設定
 # 自分のBotのアクセストークンに置き換えてください
 token_file = open('token.txt')
@@ -70,6 +72,13 @@ def gs_login():
 
     return gc
 
+
+gc = gs_login()
+#共有設定したスプレッドシートキーを変数[SPREADSHEET_KEY]に格納する。
+SPREADSHEET_KEY = '1ThG04nz4l-ISa504UNcF97gKlkMx75YtggMGSJR2Eic'
+
+workbook = gc.open_by_key(SPREADSHEET_KEY)
+
 def parse_space(message_content):
     return message_content.split()
 
@@ -117,14 +126,15 @@ def bot_switch(message):
 
     elif message.content.startswith('/act'):
     #プレイヤーが行動を行うときのコマンド
+        token_start_time = time.time()
+
         cmd, player_name, action = parse_space(message.content)
-        
+
         worksheet = workbook.worksheet(player_name)
         act_cell = worksheet.find(action)
-        act_skill_point = int(worksheet.cell(act_cell.row, act_cell.col + 4).value)
 
+        act_skill_point = int(worksheet.cell(act_cell.row, act_cell.col + 4).value)
         dice = dice_roll(1, 100)
-        
         act_result = action_check(act_skill_point, dice)
 
         return (player_name + " の " + action + "(" + str(act_skill_point) + ") → **"
@@ -163,12 +173,6 @@ async def on_message(message):
 
     else:
         return
-
-gc = gs_login()
-#共有設定したスプレッドシートキーを変数[SPREADSHEET_KEY]に格納する。
-SPREADSHEET_KEY = '1ThG04nz4l-ISa504UNcF97gKlkMx75YtggMGSJR2Eic'
-
-workbook = gc.open_by_key(SPREADSHEET_KEY)
 
 # Botの起動とDiscordサーバーへの接続
 client.run(TOKEN)
