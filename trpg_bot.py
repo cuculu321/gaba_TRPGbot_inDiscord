@@ -134,9 +134,20 @@ def read_skill_point(workbook, player_name, action):
     return act_skill_point
 
 def search_operational_symbol(action):
-    search_result_obj = re.search(r'¥+|-|¥*|/', action)
+    search_result_obj = re.search(r'\+|-|\*|/', action)
     
     return search_result_obj.start()
+
+def splitting_action(action, index):
+    splited_action = action[0 : index]
+    operational_symbol = action[index]
+    arithmetic_num = action[index + 1 : len(action)]
+    print(index)
+    print(splited_action)
+    print(operational_symbol)
+    print(arithmetic_num)
+
+    return splited_action, operational_symbol, arithmetic_num
 
 def bot_switch(message):
     #botのモードをコマンドによってスイッチ
@@ -167,6 +178,9 @@ def bot_switch(message):
 
         #四則演算記号の検索
         operational_index = search_operational_symbol(action)
+        if operational_index != 0:
+            action, operational_symbol, arithmetic_num = splitting_action(action, operational_index)
+
 
         act_skill_point = read_skill_point(workbook, player_name, action)
 
