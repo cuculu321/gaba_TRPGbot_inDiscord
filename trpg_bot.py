@@ -10,6 +10,7 @@ import json
 from oauth2client.service_account import ServiceAccountCredentials 
 
 import time
+import re
 
 # *** Discordのボットの設定
 # 自分のBotのアクセストークンに置き換えてください
@@ -132,6 +133,11 @@ def read_skill_point(workbook, player_name, action):
 
     return act_skill_point
 
+def search_operational_symbol(action):
+    search_result_obj = re.search(r'¥+|-|¥*|/', action)
+    
+    return search_result_obj.start()
+
 def bot_switch(message):
     #botのモードをコマンドによってスイッチ
     print(message.content)
@@ -158,6 +164,9 @@ def bot_switch(message):
         workbook = acccess_spreadsheet.give_workbook()
 
         cmd, player_name, action = parse_space(message.content)
+
+        #四則演算記号の検索
+        operational_index = search_operational_symbol(action)
 
         act_skill_point = read_skill_point(workbook, player_name, action)
 
