@@ -9,6 +9,8 @@ import json
 #ServiceAccountCredentials：Googleの各サービスへアクセスできるservice変数を生成します。
 from oauth2client.service_account import ServiceAccountCredentials 
 
+import time
+
 # *** Discordのボットの設定
 # 自分のBotのアクセストークンに置き換えてください
 token_file = open('token.txt')
@@ -19,23 +21,6 @@ channel_id = [681676739310780436, 497063980385435681, 683269397095514166]
 
 # 接続に必要なオブジェクトを生成
 client = discord.Client()
-
-
-# *** Google SpreadSheetへのアクセス
-#2つのAPIを記述しないとリフレッシュトークンを3600秒毎に発行し続けなければならない
-scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
-
-#認証情報設定
-#ダウンロードしたjsonファイル名をクレデンシャル変数に設定（秘密鍵、Pythonファイルから読み込みしやすい位置に置く）
-credentials = ServiceAccountCredentials.from_json_keyfile_name('gaba-cocbot-readspreadsheet-22b6a04f8d0a.json', scope)
-
-#OAuth2の資格情報を使用してGoogle APIにログインします。
-gc = gspread.authorize(credentials)
-
-#共有設定したスプレッドシートキーを変数[SPREADSHEET_KEY]に格納する。
-SPREADSHEET_KEY = '1ThG04nz4l-ISa504UNcF97gKlkMx75YtggMGSJR2Eic'
-
-workbook = gc.open_by_key(SPREADSHEET_KEY)
 
 #*** 一時的狂気リスト
 temporary_madness = {}
@@ -73,6 +58,45 @@ indefinite_madness[8] = '不信（単独行動をとりたがる。交渉技能�
 indefinite_madness[9] = '幻覚（目を使う技能は技能値に-30）'
 indefinite_madness[10] = '殺人癖（誰彼構わず殺そうとする） '
 
+class open_google_spreadsheet:
+    gc = []
+    workbook = []
+    SPREADSHEET_KEY = '1ThG04nz4l-ISa504UNcF97gKlkMx75YtggMGSJR2Eic'
+    set_token_time = 0
+    
+    def gs_login(self):
+        # *** Google SpreadSheetへのアクセス
+        #2つのAPIを記述しないとリフレッシュトークンを3600秒毎に発行し続けなければならない
+        scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
+
+        #認証情報設定
+        #ダウンロードしたjsonファイル名をクレデンシャル変数に設定（秘密鍵、Pythonファイルから読み込みしやすい位置に置く）
+        credentials = ServiceAccountCredentials.from_json_keyfile_name('gaba-cocbot-readspreadsheet-22b6a04f8d0a.json', scope)
+
+        #OAuth2の資格情報を使用してGoogle APIにログインします。
+        self.gc = gspread.authorize(credentials)
+
+    def open_workbook(self):
+        self.workbook = self.gc.open_by_key(self.SPREADSHEET_KEY)
+
+    def set_token(self):
+        self.gs_login()
+        self.open_workbook()
+        self.set_token_time = time.time()
+
+    def give_workbook(self):
+        print(time.time() - self.set_token_time)
+        if (time.time() - self.set_token_time)> 3500:
+            print("refresh token")
+            self.set_token()
+
+        return self.workbook
+
+#*** スプレッドシートを使用するためのクラスと、トークンのセット
+acccess_spreadsheet = open_google_spreadsheet()
+acccess_spreadsheet.set_token()   
+
+
 def parse_space(message_content):
     return message_content.split()
 
@@ -83,7 +107,7 @@ def dice_roll(num_dice, dice_faces):
     return random.randint(num_dice, num_dice * dice_faces)
 
 def action_check(skill_point, dice):
-    if dice < skill_point:
+    if dice <= skill_point:
         if dice < 5:
             return "クリティカル"
         elif dice < 10:
@@ -96,6 +120,22 @@ def action_check(skill_point, dice):
             return "ファンブル"
         else:
             return "失敗"
+
+def read_skill_point(workbook, player_name, action):
+    action_cmd = action
+    multipl_point = 1
+    
+    if "*" in action:
+        mult_symbol_index = action.find("*")
+        action_cmd = action[0 : mult_symbol_index]
+        multipl_point = action[mult_symbol_index + 1: len(action)]
+        
+    worksheet = workbook.worksheet(player_name)
+    act_cell = worksheet.find(action_cmd)
+
+    act_skill_point = int(worksheet.cell(act_cell.row, act_cell.col + 4).value) * int(multipl_point)
+
+    return act_skill_point
 
 def bot_switch(message):
     #botのモードをコマンドによってスイッチ
@@ -119,14 +159,14 @@ def bot_switch(message):
         return (message_splitd_space[1] + " → **" + str(rolled) +"**")
 
     elif message.content.startswith('/act'):
-    #プレイヤーが行動を行うときのコマンド
+    #プレイヤーが行動を行うときのコマンド        
+        workbook = acccess_spreadsheet.give_workbook()
+
         cmd, player_name, action = parse_space(message.content)
-        worksheet = workbook.worksheet(player_name)
-        act_cell = worksheet.find(action)
-        act_skill_point = int(worksheet.cell(act_cell.row, act_cell.col + 4).value)
+
+        act_skill_point = read_skill_point(workbook, player_name, action)
 
         dice = dice_roll(1, 100)
-        
         act_result = action_check(act_skill_point, dice)
 
         return (player_name + " の " + action + "(" + str(act_skill_point) + ") → **"
