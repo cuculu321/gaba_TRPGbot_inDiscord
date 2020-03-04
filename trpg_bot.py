@@ -124,16 +124,11 @@ def action_check(skill_point, dice):
 def read_skill_point(workbook, player_name, action):
     action_cmd = action
     multipl_point = 1
-    
-    if "*" in action:
-        mult_symbol_index = action.find("*")
-        action_cmd = action[0 : mult_symbol_index]
-        multipl_point = action[mult_symbol_index + 1: len(action)]
         
     worksheet = workbook.worksheet(player_name)
     act_cell = worksheet.find(action_cmd)
 
-    act_skill_point = int(worksheet.cell(act_cell.row, act_cell.col + 4).value) * int(multipl_point)
+    act_skill_point = int(worksheet.cell(act_cell.row, act_cell.col + 4).value)
 
     return act_skill_point
 
