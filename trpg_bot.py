@@ -135,8 +135,20 @@ def read_skill_point(workbook, player_name, action):
 
 def search_operational_symbol(action):
     search_result_obj = re.search(r'\+|-|\*|/', action)
-    
-    return search_result_obj.start()
+    if search_result_obj is None:
+        return 0
+    else:
+        return search_result_obj.start()
+
+def four_arithmetic_operations(skill_point, symbol, num):
+    if symbol == "+":
+        return skill_point + num
+    elif symbol == "*":
+        return skill_point * num
+    elif symbol == "-":
+        return skill_point - num
+    elif symbol == "/":
+        return skill_point / num
 
 def splitting_action(action, index):
     splited_action = action[0 : index]
@@ -147,7 +159,7 @@ def splitting_action(action, index):
     print(operational_symbol)
     print(arithmetic_num)
 
-    return splited_action, operational_symbol, arithmetic_num
+    return splited_action, operational_symbol, int(arithmetic_num)
 
 def bot_switch(message):
     #botのモードをコマンドによってスイッチ
@@ -178,11 +190,21 @@ def bot_switch(message):
 
         #四則演算記号の検索
         operational_index = search_operational_symbol(action)
-        if operational_index != 0:
-            action, operational_symbol, arithmetic_num = splitting_action(action, operational_index)
 
+        if operational_index == 0: #四則演算がない場合はすぐに返す
+            act_skill_point = read_skill_point(workbook, player_name, action)
+
+            dice = dice_roll(1, 100)
+            act_result = action_check(act_skill_point, dice)
+
+            return (player_name + " の " + action + "(" + str(act_skill_point) + ") → **"
+                        + str(dice) +" "+ act_result + "**")
+
+        action, operational_symbol, arithmetic_num = splitting_action(action, operational_index)
 
         act_skill_point = read_skill_point(workbook, player_name, action)
+
+        act_skill_point = four_arithmetic_operations(act_skill_point, operational_symbol, arithmetic_num)
 
         dice = dice_roll(1, 100)
         act_result = action_check(act_skill_point, dice)
