@@ -1,16 +1,14 @@
 # coding: utf-8
-
-import discord
 import random
-
-import gspread
 import json
+import time
+import re
 
 #ServiceAccountCredentials：Googleの各サービスへアクセスできるservice変数を生成します。
 from oauth2client.service_account import ServiceAccountCredentials 
+import gspread
+import discord
 
-import time
-import re
 
 # *** Discordのボットの設定
 # 自分のBotのアクセストークンに置き換えてください
