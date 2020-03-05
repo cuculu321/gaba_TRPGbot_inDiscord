@@ -10,6 +10,7 @@ import json
 from oauth2client.service_account import ServiceAccountCredentials 
 
 import time
+import re
 
 # *** Discordのボットの設定
 # 自分のBotのアクセストークンに置き換えてください
@@ -124,18 +125,37 @@ def action_check(skill_point, dice):
 def read_skill_point(workbook, player_name, action):
     action_cmd = action
     multipl_point = 1
-    
-    if "*" in action:
-        mult_symbol_index = action.find("*")
-        action_cmd = action[0 : mult_symbol_index]
-        multipl_point = action[mult_symbol_index + 1: len(action)]
         
     worksheet = workbook.worksheet(player_name)
     act_cell = worksheet.find(action_cmd)
 
-    act_skill_point = int(worksheet.cell(act_cell.row, act_cell.col + 4).value) * int(multipl_point)
+    act_skill_point = int(worksheet.cell(act_cell.row, act_cell.col + 4).value)
 
     return act_skill_point
+
+def search_operational_symbol(action):
+    search_result_obj = re.search(r'\+|-|\*|/', action)
+    if search_result_obj is None:
+        return 0
+    else:
+        return search_result_obj.start()
+
+def four_arithmetic_operations(skill_point, symbol, num):
+    if symbol == "+":
+        return skill_point + num
+    elif symbol == "*":
+        return skill_point * num
+    elif symbol == "-":
+        return skill_point - num
+    elif symbol == "/":
+        return skill_point / num
+
+def splitting_action(action, index):
+    splited_action = action[0 : index]
+    operational_symbol = action[index]
+    arithmetic_num = action[index + 1 : len(action)]
+
+    return splited_action, operational_symbol, int(arithmetic_num)
 
 def bot_switch(message):
     #botのモードをコマンドによってスイッチ
@@ -164,7 +184,23 @@ def bot_switch(message):
 
         cmd, player_name, action = parse_space(message.content)
 
+        #四則演算記号の検索
+        operational_index = search_operational_symbol(action)
+
+        if operational_index == 0: #四則演算がない場合はすぐに返す
+            act_skill_point = read_skill_point(workbook, player_name, action)
+
+            dice = dice_roll(1, 100)
+            act_result = action_check(act_skill_point, dice)
+
+            return (player_name + " の " + action + "(" + str(act_skill_point) + ") → **"
+                        + str(dice) +" "+ act_result + "**")
+
+        action, operational_symbol, arithmetic_num = splitting_action(action, operational_index)
+
         act_skill_point = read_skill_point(workbook, player_name, action)
+
+        act_skill_point = four_arithmetic_operations(act_skill_point, operational_symbol, arithmetic_num)
 
         dice = dice_roll(1, 100)
         act_result = action_check(act_skill_point, dice)
