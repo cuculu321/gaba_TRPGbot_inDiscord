@@ -154,10 +154,6 @@ def splitting_action(action, index):
     splited_action = action[0 : index]
     operational_symbol = action[index]
     arithmetic_num = action[index + 1 : len(action)]
-    print(index)
-    print(splited_action)
-    print(operational_symbol)
-    print(arithmetic_num)
 
     return splited_action, operational_symbol, int(arithmetic_num)
 
