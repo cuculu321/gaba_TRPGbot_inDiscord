@@ -65,5 +65,36 @@ SPREADSHEET_KEY = '使いたいスプレッドシートのキー'
 
 ここ(https://tanuhack.com/operate-spreadsheet/)の
 **1. Google Cloud Platformの設定**
-を実行し、jsonデータを取得してください。
+を実行し、jsonファイルを取得してください。
 
+## 6. json_keyfileの入力
+取得したjsonファイルを、このフォルダに入れてください。
+
+その後、ファイル名をコピーし*read_spreadsheet.py*の
+```
+json_keyfile = "jsonファイルのファイル名"
+```
+と置き換えます。
+
+## 7. Discordのトークンの入力
+まず、https://discordapp.com/developers/applications/ にアクセスして、New Applicationをクリックします。
+![コメント 2020-03-07 014558](https://user-images.githubusercontent.com/25599717/76103726-8595fb00-6015-11ea-952c-b4c984773c90.png)
+
+クリックすると、CREATE AN APPLICATIONという画面が出るので、NAMEに適当にアプリ名を付け、Createボタンを押します。
+![コメント 2020-03-07 014900](https://user-images.githubusercontent.com/25599717/76103906-d4dc2b80-6015-11ea-931c-d46fcb1cfa72.png)
+
+すると、このような画面になります。この画面では、CoC_botというアプリ名になっています。
+
+![キャプチャ1](https://user-images.githubusercontent.com/25599717/76104154-2edcf100-6016-11ea-90ed-a9253b8bc478.PNG)
+
+左端の中段にある**Bot**から、**Add Bot**をクリックします。
+![コメント 2020-03-07 015346](https://user-images.githubusercontent.com/25599717/76104363-91ce8800-6016-11ea-8044-bce7cf8e490d.png)
+
+クリックすると、このような画面が開かれます。
+
+この画面ではbotのアイコンや名称の変更などが出来ます。いつでも変えることが出来るので、変更したい場合は変更を加えてください。
+
+今は、Tokenの下にあるCopyをクリックします。
+![コメント 2020-03-07 015609](https://user-images.githubusercontent.com/25599717/76104571-f558b580-6016-11ea-9441-822f34e4dcbb.png)
+
+このフォルダの中に、token.txtを作成し、token.txtに先ほどコピーしたTokenを貼り付けます。
