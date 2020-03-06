@@ -122,21 +122,84 @@ class open_google_spreadsheet:
 
         return self.workbook
 
+
 #*** スプレッドシートを使用するためのクラスと、トークンのセット
 acccess_spreadsheet = open_google_spreadsheet()
 acccess_spreadsheet.set_token()   
 
 
 def parse_space(message_content):
+    """
+    スペースをもとに分割
+
+    Parameters
+    ----------
+    message_content : string
+        Discord内で発言された文章
+
+    Returns
+    -------
+    return : list[string]
+        スペースをもとに分割されたリスト
+
+    """
+
     return message_content.split()
 
 def parse_d(diceroll_cmd):
+    """
+    「d」をもとに分割
+
+    Parameters
+    ----------
+    diceroll_cmd : string
+        /diceコマンドの引数
+
+    Returns
+    -------
+    return : list[string]
+        「d」をもとに分割されたリスト
+    """
+
     return diceroll_cmd.split("d")
 
 def dice_roll(num_dice, dice_faces):
+    """
+    ダイスを振る
+
+    Parameters
+    ----------
+    num_dice : int
+        振るサイコロの数
+    dice_faces : int
+        サイコロの面の数
+
+    Returns
+    -------
+    return : int
+        ダイス結果
+    """
+
     return random.randint(num_dice, num_dice * dice_faces)
 
 def action_check(skill_point, dice):
+    """
+    技能の成否判定を行う
+
+    Parameters
+    ----------
+    skill_point : int
+        技能値
+    dice : int
+        ダイス結果
+
+    Returns
+    -------
+    return : string
+        成否判定
+
+    """
+
     if dice <= skill_point:
         if dice < 5:
             return "クリティカル"
@@ -152,6 +215,25 @@ def action_check(skill_point, dice):
             return "失敗"
 
 def read_skill_point(workbook, player_name, action):
+    """
+    技能値の取得
+
+    Parameters
+    ----------
+    workbook : spreadsheet
+        取得したいspreadsheet
+    player_name : string
+        /actコマンドの第1引数。プレイヤーの名称(検索するシート名)
+    action : string
+        /actコマンドの第2引数。技能名(検索する文字)
+
+    Returns
+    -------
+    act_skill_point : int
+        技能値
+
+    """
+    
     action_cmd = action
     multipl_point = 1
         
@@ -163,6 +245,21 @@ def read_skill_point(workbook, player_name, action):
     return act_skill_point
 
 def search_operational_symbol(action):
+    """
+    文字列から四則演算記号の位置を取得する
+
+    Parameters
+    ----------
+    action : string
+        /actコマンドの第2引数。技能名(検索する文字)
+
+    Returns
+    -------
+    return : int
+        四則演算記号の位置。見つからなかった場合は0
+
+    """
+    
     search_result_obj = re.search(r'\+|-|\*|/', action)
     if search_result_obj is None:
         return 0
@@ -170,6 +267,25 @@ def search_operational_symbol(action):
         return search_result_obj.start()
 
 def four_arithmetic_operations(skill_point, symbol, num):
+    """
+    四則演算
+
+    Parameters
+    ----------
+    skill_point : int
+        技能値
+    symbol : string
+        演算記号
+    num : int
+        修正値
+
+    Returns
+    -------
+    return : int
+        四則演算後の値
+
+    """
+    
     if symbol == "+":
         return skill_point + num
     elif symbol == "*":
@@ -180,6 +296,26 @@ def four_arithmetic_operations(skill_point, symbol, num):
         return skill_point / num
 
 def splitting_action(action, index):
+    """
+    四則演算記号を元に分割を行う
+
+    Parameters
+    ----------
+    action : string
+        /actコマンドの第2引数。技能名(検索する文字)
+    index : int
+        四則演算記号のあるindex
+
+    Returns
+    -------
+    splited_action : string
+        技能名
+    operational_symbol : string
+        四則演算記号
+    arithmetic_num : int
+        修正値
+    """
+    
     splited_action = action[0 : index]
     operational_symbol = action[index]
     arithmetic_num = action[index + 1 : len(action)]
@@ -187,6 +323,20 @@ def splitting_action(action, index):
     return splited_action, operational_symbol, int(arithmetic_num)
 
 def bot_switch(message):
+    """
+
+    Parameters
+    ----------
+    message : string
+        Discord内で発言された文章メソッド
+
+    Returns
+    -------
+    return : string
+        Discordに表示する文字列
+
+    """
+    
     #botのモードをコマンドによってスイッチ
     print(message.content)
     if message.content.startswith('/neko'):
