@@ -18,6 +18,8 @@
 
 1. Discord botの作成
 
+1. botを動かす
+
 ## 1. キャラクターシートのスプシの紹介
 ---
 キャラクターシートのスプシはCoC第6版となっています。
@@ -55,6 +57,7 @@ channel_id = [コピーしたID]
 ```
 
 ## 4. SPREADSHEET_KEYの入力
+---
 使いたいスプレッドシートを開いた時際、URLの/d/と/edit~~の部分を*read_spreadsheet.py*の24行目の
 ```
 SPREADSHEET_KEY = '使いたいスプレッドシートのキー'
@@ -62,7 +65,7 @@ SPREADSHEET_KEY = '使いたいスプレッドシートのキー'
 と置き換えます。
 
 ## 5. サービスアカウントキー取得
-
+---
 ここ(https://tanuhack.com/operate-spreadsheet/)の
 **1. Google Cloud Platformの設定**
 を実行し、jsonファイルを取得してください。
@@ -77,6 +80,7 @@ json_keyfile = "jsonファイルのファイル名"
 と置き換えます。
 
 ## 7. Discordのトークンの入力
+---
 まず、https://discordapp.com/developers/applications/ にアクセスして、New Applicationをクリックします。
 ![コメント 2020-03-07 014558](https://user-images.githubusercontent.com/25599717/76103726-8595fb00-6015-11ea-952c-b4c984773c90.png)
 
@@ -97,4 +101,44 @@ json_keyfile = "jsonファイルのファイル名"
 今は、Tokenの下にあるCopyをクリックします。
 ![コメント 2020-03-07 015609](https://user-images.githubusercontent.com/25599717/76104571-f558b580-6016-11ea-9441-822f34e4dcbb.png)
 
-このフォルダの中に、token.txtを作成し、token.txtに先ほどコピーしたTokenを貼り付けます。
+*TRPGbot_inDiscord*フォルダの中に、*token.txt*を作成し、*token.txt*に先ほどコピーしたTokenを貼り付けます。
+
+## 8. Discord botの作成
+---
+Tokenを貼り付け保存したら、先ほどのDiscordに戻り、左端の欄にある**OAuth2**をクリックします。
+その画面で**scopes**内の**bot**に☑を入れます。
+
+するとURLが生成されるのでCopyボタンをクリックしコピーします。
+![コメント 2020-03-07 021226](https://user-images.githubusercontent.com/25599717/76106420-2686b500-601a-11ea-8c7b-52acaea7e099.png)
+
+そのURLに接続するとこのような画面が表示されます。
+
+その後、サーバーを選択から、botを入れたいサーバーを選択します。
+
+※サーバーの管理者権限がなければサーバーを入れることは出来ません。
+![コメント 2020-03-07 022342](https://user-images.githubusercontent.com/25599717/76107343-ce50b280-601b-11ea-8783-83a46cbbc8d6.png)
+
+サーバーを選ぶとこのような画面になるので、ロボットではないと宣言します。
+![キャプチャ3](https://user-images.githubusercontent.com/25599717/76107348-cf81df80-601b-11ea-874b-9502afb14504.PNG)
+
+そうすると、対象のサーバーにbotが追加されます。
+![キャプチャ4](https://user-images.githubusercontent.com/25599717/76107463-0a841300-601c-11ea-8283-0b33ce9a1eaf.PNG)
+
+## 9. botを動かす
+---
+* pythonで動かす
+* herokuで動かす
+
+### 9.1 pythonで動かす
+---
+```
+python trpg_bot.py
+```
+
+### 9.2 herokuで動かす
+---
+```
+git add .
+git commit -m "run"
+git push heroku master
+```
