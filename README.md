@@ -8,17 +8,17 @@
 
 1. [chennel idの入力](https://github.com/cuculu321/gaba_TRPGbot_inDiscord/tree/make_readme#3chennel-id%E3%81%AE%E5%85%A5%E5%8A%9B)
 
-1. SPREADSHEET_KEYの入力
+1. [SPREADSHEET_KEYの入力](https://github.com/cuculu321/gaba_TRPGbot_inDiscord/tree/make_readme#4-spreadsheet_key%E3%81%AE%E5%85%A5%E5%8A%9B)
 
-1. サービスアカウントキー取得
+1. [サービスアカウントキー取得](https://github.com/cuculu321/gaba_TRPGbot_inDiscord/tree/make_readme#5-%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88%E3%82%AD%E3%83%BC%E5%8F%96%E5%BE%97)
 
-1. json_keyfileの入力
+1. [json_keyfileの入力](https://github.com/cuculu321/gaba_TRPGbot_inDiscord/tree/make_readme#6-json_keyfile%E3%81%AE%E5%85%A5%E5%8A%9B)
 
-1. Discordのトークンの入力
+1. [Discordのトークンの入力](https://github.com/cuculu321/gaba_TRPGbot_inDiscord/tree/make_readme#7-discord%E3%81%AE%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3%E3%81%AE%E5%85%A5%E5%8A%9B)
 
-1. Discord botの作成
+1. [Discord botの作成](https://github.com/cuculu321/gaba_TRPGbot_inDiscord/tree/make_readme#8-discord-bot%E3%81%AE%E4%BD%9C%E6%88%90)
 
-1. botを動かす
+1. [botを動かす](https://github.com/cuculu321/gaba_TRPGbot_inDiscord/tree/make_readme#9-bot%E3%82%92%E5%8B%95%E3%81%8B%E3%81%99)
 
 ## 1. キャラクターシートのスプシの紹介
 ---
