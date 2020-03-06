@@ -23,6 +23,7 @@ class open_google_spreadsheet:
     workbook = []
     SPREADSHEET_KEY = '1ThG04nz4l-ISa504UNcF97gKlkMx75YtggMGSJR2Eic'
     set_token_time = 0
+    json_keyfile = 'gaba-cocbot-readspreadsheet-22b6a04f8d0a.json'
     
     def gs_login(self):
         """
@@ -34,7 +35,7 @@ class open_google_spreadsheet:
 
         #認証情報設定
         #ダウンロードしたjsonファイル名を設定
-        credentials = ServiceAccountCredentials.from_json_keyfile_name('gaba-cocbot-readspreadsheet-22b6a04f8d0a.json', scope)
+        credentials = ServiceAccountCredentials.from_json_keyfile_name(self.json_keyfile, scope)
 
         #OAuth2の資格情報を使用してGoogle APIにログインします。
         self.gc = gspread.authorize(credentials)
