@@ -2,3 +2,5 @@ Pipfile.lock
 token.txt
 .DS_Store
 *.json
+*.pyc
+__pycache__
