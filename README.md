@@ -39,3 +39,16 @@ or
 
 * heroku
 
+## 3.chennel idの入力
+---
+Discordのユーザー設定からテーマを開き、開発者モードをONにします。
+![Discord_開発者モード](https://user-images.githubusercontent.com/25599717/76095944-870cf680-6008-11ea-9fc2-9b762373b19b.PNG)
+
+ONにしたら、botを導入したいチャンネルを右クリックするとIDをコピーできます。
+![コメント 2020-03-07 001459](https://user-images.githubusercontent.com/25599717/76096384-5d080400-6009-11ea-9082-9b32d51a1467.png)
+
+コピーしたIDをtrpg_bot.pyの17行目
+```
+channel_id = [********]
+```
+の********と置き換えます。
