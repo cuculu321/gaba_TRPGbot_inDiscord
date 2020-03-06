@@ -61,3 +61,9 @@ SPREADSHEET_KEY = '使いたいスプレッドシートのキー'
 ```
 と置き換えます。
 
+## 5. サービスアカウントキー取得
+
+ここ(https://tanuhack.com/operate-spreadsheet/)の
+**1. Google Cloud Platformの設定**
+を実行し、jsonデータを取得してください。
+
