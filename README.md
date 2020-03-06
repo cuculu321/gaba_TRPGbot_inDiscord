@@ -47,9 +47,17 @@ Discordのユーザー設定からテーマを開き、開発者モードをON�
 ONにしたら、botを導入したいチャンネルを右クリックするとIDをコピーできます。
 ![コメント 2020-03-07 001459](https://user-images.githubusercontent.com/25599717/76096384-5d080400-6009-11ea-9082-9b32d51a1467.png)
 
-コピーしたIDをtrpg_bot.pyの17行目の********と置き換えます。
+コピーしたIDを*trpg_bot.py*の17行目の********と置き換えます。
 ```
 channel_id = [********]
             ↓
 channel_id = [コピーしたID]
 ```
+
+## 4. SPREADSHEET_KEYの入力
+使いたいスプレッドシートを開いた時際、URLの/d/と/edit~~の部分を*read_spreadsheet.py*の24行目の
+```
+SPREADSHEET_KEY = '使いたいスプレッドシートのキー'
+```
+と置き換えます。
+
