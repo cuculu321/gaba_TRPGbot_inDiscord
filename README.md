@@ -37,9 +37,16 @@ https://docs.google.com/spreadsheets/d/1ByjbgapG7UmpT6AoQwB32EUCJaULlCT5-kUGZBQ1
 * oauth2client
 * gspread
 
+```
+pip install discord.py
+pip install gspread
+pip install oauth2client
+```
 or 
 
 * heroku
+
+この辺を参考に(https://note.com/on_bass/n/n0495484a2b2b)てきとーに
 
 ## 3.chennel idの入力
 ---
