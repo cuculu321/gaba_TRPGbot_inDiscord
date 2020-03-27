@@ -233,7 +233,12 @@ def bot_switch(message):
         operational_index = search_operational_symbol(action)
 
         if operational_index == 0: #四則演算がない場合はすぐに返す
-            act_skill_point = read_skill_point(workbook, player_name, action)
+            try:
+                act_skill_point = read_skill_point(workbook, player_name, action)
+            except gspread.exceptions.WorksheetNotFound:
+                return "err : プレイヤー名が存在しないか、間違っています。"
+            except gspread.exceptions.CellNotFound:
+                return "err : 技能名が存在しないか、間違っています。"
 
             dice = dice_roll(1, 100)
             act_result = action_check(act_skill_point, dice)
